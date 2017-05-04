@@ -68,14 +68,14 @@ $( document ).ready(function() {
 
     exampleSocket.onopen = function (event) {
         console.log("Connected to server web socket.");
-        $("#simulation-logs").append("Connected to server web socket.");
+        $("#simulation-logs").prepend("Connected to server web socket.");
     };
     exampleSocket.onmessage = function (event) {
         var data = JSON.parse(event.data);
         switch(data.$type) {
             case "pl.mowczarek.love.backend.actors.Field.CreatureSpawned":
                 console.log("Creature " + data.creature.id + " spawned.");
-                $("#simulation-logs").append("<br>Creature " + data.creature.id + " spawned.");
+                $("#simulation-logs").prepend("Creature " + data.creature.id + " spawned.<br>");
                 sex = "undefined";
                 if(data.creature.sex != undefined){
                     sex = data.creature.sex.$type.toString().includes(".Male") ? "male" : "female";
@@ -85,7 +85,7 @@ $( document ).ready(function() {
                 break;
             case "pl.mowczarek.love.backend.actors.Field.CreatureMature":
                 console.log("Creature " + data.creature.id + " matured.");
-                $("#simulation-logs").append("<br>Creature " + data.creature.id + " matured.");
+                $("#simulation-logs").prepend("Creature " + data.creature.id + " matured.<br>");
                 found = false;
                 for(i=0; i<creatures.length;i++){
                     if(creatures[i].id == data.creature.id){
@@ -109,7 +109,7 @@ $( document ).ready(function() {
                 break;
             case "pl.mowczarek.love.backend.actors.Field.CreatureEmigrated":
                 console.log("Creature " + data.creature.id + " emigrated.");
-                $("#simulation-logs").append("<br>Creature " + data.creature.id + " emigrated.");
+                $("#simulation-logs").prepend("Creature " + data.creature.id + " emigrated.<br>");
                 found = false;
                 for(i=0; i<creatures.length;i++){
                     if(creatures[i].id == data.creature.id){
@@ -135,7 +135,7 @@ $( document ).ready(function() {
                 break;
             case "pl.mowczarek.love.backend.actors.Field.CreatureImmigrated":
                 console.log("Creature " + data.creature.id + " immigrated.");
-                $("#simulation-logs").append("<br>Creature " + data.creature.id + " immigrated.");
+                $("#simulation-logs").prepend("Creature " + data.creature.id + " immigrated.<br>");
                 found = false;
                 for(i=0; i<creatures.length;i++){
                     if(creatures[i].id == data.creature.id){
@@ -159,7 +159,7 @@ $( document ).ready(function() {
                 break;
             case "pl.mowczarek.love.backend.actors.Field.CreatureDied":
                 console.log("Creature " + data.creature.id + " died.");
-                $("#simulation-logs").append("<br>Creature " + data.creature.id + " died.");
+                $("#simulation-logs").prepend("Creature " + data.creature.id + " died.<br>");
                 found = false;
                 for(i=0; i<creatures.length;i++){
                     if(creatures[i].id == data.creature.id){
@@ -180,7 +180,7 @@ $( document ).ready(function() {
     };
     exampleSocket.onclose = function (event) {
         console.log("Disconnected from server web socket.");
-        $("#simulation-logs").append("<br>Disconnected from server web socket.");
+        $("#simulation-logs").prepend("Disconnected from server web socket.<br>");
     };
 
     function getRandomInt(min, max) {
@@ -192,7 +192,7 @@ $( document ).ready(function() {
             element.xCanvas = getRandomInt((canvas.width/2) * (element.x - 1), (canvas.width/2) * element.x - 30);
         }
         if(element.yCanvas == -1){
-            element.yCanvas = getRandomInt((canvas.height/2) * (element.y - 1) + 30, (canvas.height/2) * element.y);
+            element.yCanvas = getRandomInt((canvas.height/2) * (element.y - 1), (canvas.height/2) * element.y - 30);
         }
         if(element.state == "mature" || element.state == "immigrated") {
             if (element.sex == "male") {
